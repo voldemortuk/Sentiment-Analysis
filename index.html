@@ -316,37 +316,67 @@
   </div>
 </div>
 
-<!-- ====== SLIDE 7: OPTIONS ====== -->
+<!-- ====== SLIDE 6: WHAT WE'LL SOLVE ====== -->
 <div class="slide">
   <div class="slide__inner">
-    <div class="eyebrow">Your options</div>
-    <div class="heading-md" style="margin-bottom: 28px;">Three scopes. <span class="accent-text">You choose the depth.</span></div>
-    <div class="cards-3" style="gap: 20px;">
-      <div class="card" style="border-top: 3px solid var(--text-muted); padding: 32px 24px;">
-        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Option A</div>
-        <div class="card__title" style="font-size: 24px;">Excel-to-Dashboard</div>
-        <div class="card__desc" style="margin-bottom: 16px;">Start with the data you already have. Import People Forum + Town Hall Q&A from spreadsheets. AI classifies. Dashboard surfaces insights.</div>
-        <div style="padding: 12px 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
-          <strong style="color: var(--text-primary);">Best for:</strong> Quick proof of value from existing data.<br>
-          <strong style="color: var(--text-primary);">Inputs:</strong> Typed text (Forum + Q&A submissions)
+    <div class="eyebrow">What we'll solve together</div>
+    <div class="heading-md" style="margin-bottom: 10px;">We'll tackle these <span class="accent-text">one by one</span> &mdash; until every gap is closed.</div>
+    <div class="text-md" style="margin-bottom: 28px; max-width: 860px;">No phases, no options to choose between. We work through each of these systematically.</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="card" style="border-left: 4px solid var(--accent); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#128221;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Ingest People Forum data</div>
+          <div class="card__desc" style="font-size: 15px;">Import existing typed concerns from the forum &mdash; Excel, CSV, or API. AI classifies every entry automatically.</div>
         </div>
       </div>
-      <div class="card" style="border-top: 3px solid var(--accent); padding: 32px 24px; box-shadow: 0 4px 20px rgba(31,78,121,0.1);">
-        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;">Option B &mdash; Recommended</div>
-        <div class="card__title" style="font-size: 24px; color: var(--accent);">Full Voice Capture</div>
-        <div class="card__desc" style="margin-bottom: 16px;">Everything in Option A, plus AI transcription from live session audio and vision reading from whiteboard photos. No concern left behind.</div>
-        <div style="padding: 12px 16px; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
-          <strong style="color: var(--accent);">Best for:</strong> Capturing the full picture &mdash; especially the live, unfiltered voice that gets lost today.<br>
-          <strong style="color: var(--accent);">Inputs:</strong> Text + session audio + whiteboard images
+      <div class="card" style="border-left: 4px solid var(--accent); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#127908;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Transcribe live session audio</div>
+          <div class="card__desc" style="font-size: 15px;">Record People Forum and town hall sessions. AI transcribes, extracts each concern, and classifies it.</div>
         </div>
       </div>
-      <div class="card" style="border-top: 3px solid var(--gold); padding: 32px 24px;">
-        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;">Option C</div>
-        <div class="card__title" style="font-size: 24px;">Full Voice + Action Tracking</div>
-        <div class="card__desc" style="margin-bottom: 16px;">Everything in Option B, plus an action queue where high-urgency concerns get assigned to HR owners, tracked to resolution, and reported to the CHRO.</div>
-        <div style="padding: 12px 16px; background: var(--gold-light); border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
-          <strong style="color: var(--gold);">Best for:</strong> Closing the loop &mdash; not just hearing the voice, but proving action was taken.<br>
-          <strong style="color: var(--gold);">Inputs:</strong> Text + audio + images + action workflows
+      <div class="card" style="border-left: 4px solid var(--gold); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#128247;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Read whiteboards & handwritten notes</div>
+          <div class="card__desc" style="font-size: 15px;">Snap a photo. AI vision extracts every concern from sticky notes, handwritten lists, and whiteboard summaries.</div>
+        </div>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--gold); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#128200;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Classify sentiment, theme & urgency</div>
+          <div class="card__desc" style="font-size: 15px;">Every concern tagged with sentiment (Positive / Neutral / Negative), one of 8 themes, and an urgency level. Handles sarcasm and mixed feelings.</div>
+        </div>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--green); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#128202;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Build a live CHRO dashboard</div>
+          <div class="card__desc" style="font-size: 15px;">Sentiment overview, top themes, office comparison, concern feed &mdash; refreshed automatically, not assembled manually.</div>
+        </div>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--green); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#9889;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Track actions to resolution</div>
+          <div class="card__desc" style="font-size: 15px;">High-urgency concerns assigned to HR owners. Status tracked (Open &rarr; In Progress &rarr; Resolved). CHRO sees what was raised and what was done.</div>
+        </div>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--red); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#128276;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Alert when something spikes</div>
+          <div class="card__desc" style="font-size: 15px;">Automatic notifications when a theme surges, sentiment drops, or a high-urgency concern lands. Email or Teams.</div>
+        </div>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--red); display: flex; gap: 16px; align-items: flex-start; padding: 22px;">
+        <div style="font-size: 28px; flex-shrink: 0;">&#9202;</div>
+        <div>
+          <div class="card__title" style="font-size: 19px; margin-bottom: 6px;">Move toward real-time</div>
+          <div class="card__desc" style="font-size: 15px;">Concerns classified as they're spoken in live sessions. Dashboard updates during the event, not days after.</div>
         </div>
       </div>
     </div>
