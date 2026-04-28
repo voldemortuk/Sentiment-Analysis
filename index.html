@@ -48,7 +48,7 @@
   .click-zone { position: fixed; top: 0; width: 15%; height: 100%; z-index: 50; cursor: pointer; }
   .click-zone--prev { left: 0; }
   .click-zone--next { right: 0; }
-  .branding { position: fixed; bottom: 32px; right: 32px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); z-index: 100; opacity: 0.5; }
+  .branding { position: fixed; bottom: 32px; right: 32px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: none; color: var(--text-muted); z-index: 100; opacity: 0.5; }
 
   .eyebrow { font-size: 16px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
   .heading-lg { font-family: var(--font-display); font-size: clamp(40px, 4.5vw, 60px); font-weight: 400; line-height: 1.12; color: var(--text-primary); }
@@ -105,7 +105,7 @@
 <div class="slide-counter" id="ctr"></div>
 <div class="click-zone click-zone--prev" id="czp"></div>
 <div class="click-zone click-zone--next" id="czn"></div>
-<div class="branding">PowerUp by UnO &times; e&</div>
+<div class="branding" style="text-transform: none;">PowerUp by UnO &times; e&amp;</div>
 
 <div class="deck" id="deck">
 
@@ -121,7 +121,7 @@
         <img src="Images/e&amp;logo-vertical.jpg" alt="e&amp;" style="height: 72px; width: auto;">
       </div>
     </div>
-    <div class="cover__badge">e& &middot; People & Culture &middot; Discovery</div>
+    <div class="cover__badge" style="text-transform: none; letter-spacing: 0.08em;">e&amp; &middot; People &amp; Culture &middot; Discovery</div>
     <div class="cover__title">
       Employee Voice<br><span style="color: #7eb8e0;">Intelligence</span>
     </div>
@@ -140,30 +140,56 @@
 <div class="slide">
   <div class="slide__inner">
     <div class="eyebrow">The challenge today</div>
-    <div class="heading-md" style="margin-bottom: 28px;">Your employee voice data <span class="accent-text">exists</span>. It just doesn't <span class="accent-text">connect.</span></div>
-    <div class="ba__layout">
-      <div>
-        <div class="ba__col-label ba__col-label--before">How it works now</div>
-        <div class="ba__card--bad">
-          <div style="font-size: 17px; color: var(--text-primary); line-height: 1.7;">
-            <div style="margin-bottom: 12px;"><strong>People Forum</strong> &mdash; e&rsquo;s primary employee voice event. Happens once a year, in person, across every office &mdash; Dubai HQ, Abu Dhabi, Sharjah, Cairo, Riyadh. 100&ndash;150 employees per office, 1-week event per office. Town halls, live Q&A, and submitted questions all happen within the Forum.</div>
-            <div style="margin-bottom: 12px;"><strong>During the Forum</strong> &mdash; live Q&A is captured via audio recordings, photos of whiteboards, handwritten notes, and Excel logs. Different note-takers in every office = inconsistent formats.</div>
-            <div style="margin-bottom: 12px;"><strong>After the Forum</strong> &mdash; employees also submit written feedback post-session. This arrives separately and in different formats.</div>
-            <div style="margin-bottom: 12px;"><strong>Manual consolidation</strong> &mdash; someone spends 1&ndash;2 weeks pulling everything together across all offices before insights reach the CHRO.</div>
-            <div><strong>Result:</strong> By the time it reaches leadership, the moment has passed. No action tracker. No progress reporting. No way to spot themes early.</div>
+    <div class="heading-md" style="margin-bottom: 32px;">Your employee voice data <span class="accent-text">exists</span>. It just doesn't <span class="accent-text">connect.</span></div>
+    <div style="display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: stretch;">
+      <!-- LEFT: How it works now -->
+      <div style="background: var(--red-light); border: 2px solid #f5c6c0; border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column;">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 16px;">How it works now</div>
+        <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">People Forum</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">e&amp;&rsquo;s primary employee voice event. Once a year, in person, across every office &mdash; Dubai HQ, Abu Dhabi, Sharjah, Cairo, Riyadh. 100&ndash;150 employees per office, 1-week event. Town halls, live Q&A, and submitted questions all happen within the Forum.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">During the Forum</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Audio, whiteboards, handwritten notes, Excel logs. Different note-takers per office = inconsistent formats.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">After the Forum</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Written feedback arrives separately, in different formats, from different offices.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--red); margin-bottom: 2px;">Manual consolidation</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">1&ndash;2 weeks pulling it all together across offices. No way to spot themes early.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--red); margin-bottom: 2px;">Manual resolution</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">No action tracker. No progress reporting. Concerns raised but never tracked to closure.</div></div>
           </div>
         </div>
+        <div style="margin-top: 16px; padding: 10px 14px; background: rgba(192,57,43,0.08); border-radius: 8px; font-size: 14px; color: var(--red); font-weight: 600; text-align: center;">Insights arrive weeks after the conversation &mdash; making it harder to act in time.</div>
       </div>
-      <div>
-        <div class="ba__col-label ba__col-label--after">What's possible</div>
-        <div class="ba__card--good">
-          <div style="font-size: 17px; color: var(--text-primary); line-height: 1.7;">
-            <div style="margin-bottom: 12px;"><strong>One pipeline</strong> &mdash; everything from the People Forum &mdash; live audio, submitted Q&A, whiteboard photos, post-session written feedback &mdash; all flows into one system.</div>
-            <div style="margin-bottom: 12px;"><strong>AI reads every format</strong> &mdash; transcribes audio, reads handwriting from photos, processes typed text. All normalised into structured records automatically.</div>
-            <div style="margin-bottom: 12px;"><strong>Live dashboard</strong> &mdash; the CHRO sees what the workforce feels across every office &mdash; not weeks later, but as soon as the data lands.</div>
-            <div><strong>Result:</strong> Act while the conversation is still warm.</div>
+      <!-- ARROW -->
+      <div style="display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--text-muted);">&rarr;</div>
+      <!-- RIGHT: What's possible -->
+      <div style="background: var(--green-light); border: 2px solid #bbf7d0; border-radius: 16px; padding: 28px 24px;">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 16px;">What's possible</div>
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">One pipeline</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Live audio, submitted Q&A, whiteboard photos, post-session feedback &mdash; all flows into one system automatically.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">AI reads every format</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Transcribes audio, reads handwriting from photos, processes typed text. All normalised into structured records.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">Live dashboard</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">CHRO sees sentiment across every office as soon as the data lands &mdash; not weeks later.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 2px;">Action tracking &amp; resolution</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Every concern tracked from raised to resolved. Assigned to owners. Progress visible to leadership.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 2px;">Automated AI updates</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Sentiment scores, theme tagging, and urgency flags refresh automatically as new data arrives. No manual classification.</div></div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div><div style="font-size: 15px; font-weight: 700; color: var(--green); margin-bottom: 2px;">Extensible to any people session</div><div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">Built for People Forum today &mdash; extends to any employee session, survey, or feedback channel tomorrow. Same pipeline, same dashboard.</div></div>
           </div>
         </div>
+        <div style="margin-top: 16px; padding: 10px 14px; background: rgba(46,125,50,0.08); border-radius: 8px; font-size: 14px; color: var(--green); font-weight: 600; text-align: center;">Act while the conversation is still warm.</div>
       </div>
     </div>
   </div>
@@ -242,8 +268,8 @@
       <div class="pipeline__arrow">&rarr;</div>
       <div class="pipeline__stage" style="border-color: var(--gold); border-width: 2px;">
         <div class="pipeline__label" style="color: var(--gold);">Surface</div>
-        <div class="pipeline__title">Dashboard</div>
-        <div class="pipeline__desc">CHRO view + PMO-level tracking</div>
+        <div class="pipeline__title">AI-Led PMO</div>
+        <div class="pipeline__desc">CHRO view + cross-office tracking</div>
       </div>
     </div>
     <div class="cards-3">
