@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>e& Employee Voice — AI-Powered Sentiment Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-dark: #0f172a;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent: #1F4E79;
+    --accent-light: #e8f0f8;
+    --gold: #D4A24C;
+    --gold-light: #fdf6e8;
+    --red: #C0392B;
+    --red-light: #fdf0ee;
+    --green: #2E7D32;
+    --green-light: #f0fdf4;
+    --neutral-grey: #757575;
+    --border: #e2e8f0;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); overflow: hidden; height: 100vh; width: 100vw; }
+  .deck { width: 100vw; height: 100vh; position: relative; }
+  .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 80px; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; background: var(--bg-primary); overflow: hidden; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide.has-scroll { overflow-y: auto; justify-content: flex-start; padding-top: 48px; }
+  .slide__inner { max-width: 1200px; width: 100%; }
+  .slide--dark { background: var(--bg-dark); }
+  .slide--dark .eyebrow { color: #7eb8e0; }
+  .slide--dark .heading-md, .slide--dark .heading-lg { color: #fff; }
+  .slide--dark .text-md { color: rgba(255,255,255,0.6); }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 200; transition: width 0.4s ease; border-radius: 0 2px 2px 0; }
+  .slide-counter { position: fixed; top: 24px; right: 32px; font-size: 14px; font-weight: 600; color: var(--text-muted); z-index: 100; letter-spacing: 0.05em; opacity: 0; transition: opacity 0.4s ease; }
+  .slide-counter.visible { opacity: 1; }
+  .click-zone { position: fixed; top: 0; width: 15%; height: 100%; z-index: 50; cursor: pointer; }
+  .click-zone--prev { left: 0; }
+  .click-zone--next { right: 0; }
+  .branding { position: fixed; bottom: 32px; right: 32px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); z-index: 100; opacity: 0.5; }
+
+  .eyebrow { font-size: 16px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  .heading-lg { font-family: var(--font-display); font-size: clamp(40px, 4.5vw, 60px); font-weight: 400; line-height: 1.12; color: var(--text-primary); }
+  .heading-md { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 40px); font-weight: 400; line-height: 1.2; color: var(--text-primary); }
+  .text-md { font-size: 19px; line-height: 1.6; color: var(--text-secondary); }
+  .accent-text { color: var(--accent); }
+  .gold-text { color: var(--gold); }
+
+  .slide--cover { background: var(--bg-dark); text-align: center; }
+  .cover__badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(31,78,121,0.2); border: 1px solid rgba(31,78,121,0.4); color: #7eb8e0; padding: 10px 24px; border-radius: 100px; font-size: 15px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 32px; }
+  .cover__title { font-family: var(--font-display); font-size: clamp(44px, 5vw, 68px); color: #fff; font-weight: 400; line-height: 1.1; max-width: 900px; margin: 0 auto 24px; }
+  .cover__sub { max-width: 700px; margin: 0 auto 40px; font-size: 22px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  .cover__meta { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; }
+  .cover__meta-item { font-size: 17px; color: rgba(255,255,255,0.5); font-weight: 500; }
+  .cover__meta-item strong { color: #fff; }
+
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; }
+  .card__tag { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .card__title { font-family: var(--font-display); font-size: 22px; color: var(--text-primary); margin-bottom: 10px; line-height: 1.2; }
+  .card__desc { font-size: 16px; color: var(--text-secondary); line-height: 1.6; }
+
+  .pipeline { display: flex; align-items: stretch; gap: 8px; width: 100%; }
+  .pipeline__stage { flex: 1; min-width: 0; padding: 16px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+  .pipeline__arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 20px; font-weight: 700; }
+  .pipeline__label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .pipeline__title { font-family: var(--font-display); font-size: 16px; color: var(--text-primary); margin-bottom: 4px; line-height: 1.2; }
+  .pipeline__desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+  .ba__layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .ba__col-label { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+  .ba__col-label--before { color: var(--red); }
+  .ba__col-label--after { color: var(--green); }
+  .ba__card--bad { background: var(--red-light); border: 2px solid #f5c6c0; border-radius: 14px; padding: 24px; }
+  .ba__card--good { background: var(--green-light); border: 2px solid #bbf7d0; border-radius: 14px; padding: 24px; }
+
+  .screenshot { border-radius: 12px; border: 2px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.08); max-width: 100%; height: auto; }
+  .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .screenshot-grid img { width: 100%; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  .screenshot-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .screenshot-caption { font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    .slide { page-break-after: always; page-break-inside: avoid; opacity: 1 !important; pointer-events: auto !important; position: relative !important; }
+    .progress-bar, .branding, .slide-counter, .click-zone { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="prog"></div>
+<div class="slide-counter" id="ctr"></div>
+<div class="click-zone click-zone--prev" id="czp"></div>
+<div class="click-zone click-zone--next" id="czn"></div>
+<div class="branding">PowerUp by UnO &times; e&</div>
+
+<div class="deck" id="deck">
+
+<!-- ====== SLIDE 1: COVER ====== -->
+<div class="slide slide--cover active">
+  <div class="slide__inner" style="text-align: center;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 36px; margin-bottom: 40px;">
+      <div style="background: #fff; border-radius: 12px; padding: 14px 24px; display: inline-flex; align-items: center;">
+        <img src="Images/powerup_logo.png" alt="PowerUp by UnO" style="height: 52px; width: auto;">
+      </div>
+      <div style="width: 2px; height: 56px; background: rgba(255,255,255,0.2);"></div>
+      <div style="background: #fff; border-radius: 12px; padding: 14px 20px; display: inline-flex; align-items: center;">
+        <img src="Images/e&amp;logo-vertical.jpg" alt="e&amp;" style="height: 48px; width: auto;">
+      </div>
+    </div>
+    <div class="cover__badge">e& &middot; People & Culture &middot; Discovery</div>
+    <div class="cover__title">
+      Employee Voice<br><span style="color: #7eb8e0;">Intelligence</span>
+    </div>
+    <p class="cover__sub">
+      What if every employee concern &mdash; from the People Forum, town halls, handwritten notes, and live sessions &mdash; was captured, classified, and on your dashboard before the next morning?
+    </p>
+    <div class="cover__meta">
+      <div class="cover__meta-item"><strong>PowerUp by UnO</strong></div>
+      <div class="cover__meta-item" style="color:rgba(255,255,255,0.2)">|</div>
+      <div class="cover__meta-item"><strong>April 2026</strong> &middot; Confidential</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 2: THE PROBLEM TODAY ====== -->
+<div class="slide">
+  <div class="slide__inner">
+    <div class="eyebrow">The challenge today</div>
+    <div class="heading-md" style="margin-bottom: 28px;">Your employee voice data <span class="accent-text">exists</span>. It just doesn't <span class="accent-text">connect.</span></div>
+    <div class="ba__layout">
+      <div>
+        <div class="ba__col-label ba__col-label--before">How it works now</div>
+        <div class="ba__card--bad">
+          <div style="font-size: 17px; color: var(--text-primary); line-height: 1.7;">
+            <div style="margin-bottom: 12px;"><strong>People Forum</strong> &mdash; employees type concerns into a system. Separate from everything else.</div>
+            <div style="margin-bottom: 12px;"><strong>Town Hall Q&A</strong> &mdash; submitted questions + live questions, captured differently by every note-taker, in every office.</div>
+            <div style="margin-bottom: 12px;"><strong>Live sessions</strong> &mdash; audio from People Forum sessions, photos of whiteboards, handwritten notes, Excel logs. No standard format. Different note-takers across offices.</div>
+            <div style="margin-bottom: 12px;"><strong>Manual consolidation</strong> &mdash; someone spends 1&ndash;2 weeks pulling this together before insights reach the CHRO.</div>
+            <div><strong>Result:</strong> By the time it reaches leadership, the moment has passed.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="ba__col-label ba__col-label--after">What's possible</div>
+        <div class="ba__card--good">
+          <div style="font-size: 17px; color: var(--text-primary); line-height: 1.7;">
+            <div style="margin-bottom: 12px;"><strong>One pipeline</strong> &mdash; every source feeds into the same system, regardless of format.</div>
+            <div style="margin-bottom: 12px;"><strong>AI reads everything</strong> &mdash; typed text, session audio, even photos of whiteboards. All normalised automatically.</div>
+            <div style="margin-bottom: 12px;"><strong>Instant classification</strong> &mdash; every concern gets a sentiment, a theme, and an urgency score in seconds.</div>
+            <div style="margin-bottom: 12px;"><strong>Real-time dashboard</strong> &mdash; the CHRO sees what the workforce feels <em>today</em>, not what they felt 2 weeks ago.</div>
+            <div><strong>Result:</strong> Act while the conversation is still warm.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 3: WHAT WE CAN INGEST ====== -->
+<div class="slide">
+  <div class="slide__inner">
+    <div class="eyebrow">Input flexibility</div>
+    <div class="heading-md" style="margin-bottom: 12px;">Four sources. <span class="accent-text">One unified view.</span></div>
+    <div class="text-md" style="margin-bottom: 24px; max-width: 860px;">We start with audio capture from live People Forum sessions. Over time, this extends to real-time processing &mdash; concerns classified as they're spoken.</div>
+    <div class="cards-4">
+      <div class="card" style="border-top: 3px solid var(--accent);">
+        <div style="font-size: 32px; margin-bottom: 12px;">&#128221;</div>
+        <div class="card__title">People Forum</div>
+        <div class="card__desc">Typed employee concerns from the existing forum system. Direct import &mdash; Excel, CSV, or API.</div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--gold);">
+        <div style="font-size: 32px; margin-bottom: 12px;">&#128172;</div>
+        <div class="card__title">Town Hall Q&A</div>
+        <div class="card__desc">Submitted questions from town hall events. Text-based &mdash; imported from forms or spreadsheets.</div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--red);">
+        <div style="font-size: 32px; margin-bottom: 12px;">&#127908;</div>
+        <div class="card__title">Live Session Audio</div>
+        <div class="card__desc">Audio from People Forum and town hall sessions. AI transcribes and extracts every distinct concern raised. <strong>Phase 1 focus.</strong></div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--green);">
+        <div style="font-size: 32px; margin-bottom: 12px;">&#128247;</div>
+        <div class="card__title">Photos & Whiteboards</div>
+        <div class="card__desc">Pictures of sticky notes, handwritten lists, whiteboard summaries. AI vision reads and extracts every concern.</div>
+      </div>
+    </div>
+    <div style="margin-top: 24px; display: flex; gap: 16px;">
+      <div style="flex: 1; padding: 14px 18px; background: var(--accent-light); border: 1px solid var(--accent); border-radius: 10px; font-size: 15px; color: var(--accent); line-height: 1.5;">
+        <strong>Phase 1:</strong> Audio capture from live sessions &rarr; AI transcription &rarr; concern extraction &rarr; classification
+      </div>
+      <div style="flex: 1; padding: 14px 18px; background: var(--gold-light); border: 1px solid var(--gold); border-radius: 10px; font-size: 15px; color: var(--gold); line-height: 1.5;">
+        <strong>Phase 2:</strong> Real-time processing &mdash; concerns classified as they're spoken, dashboard updates live during the session
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 4: HOW IT WORKS ====== -->
+<div class="slide">
+  <div class="slide__inner">
+    <div class="eyebrow">How it works</div>
+    <div class="heading-md" style="margin-bottom: 28px;">From raw input to <span class="accent-text">CHRO-ready insight</span></div>
+    <div class="pipeline" style="margin-bottom: 28px;">
+      <div class="pipeline__stage">
+        <div class="pipeline__label">Capture</div>
+        <div class="pipeline__title">Any Source</div>
+        <div class="pipeline__desc">Forum, Q&A, session audio, photos</div>
+      </div>
+      <div class="pipeline__arrow">&rarr;</div>
+      <div class="pipeline__stage">
+        <div class="pipeline__label">Transcribe</div>
+        <div class="pipeline__title">AI Reads It</div>
+        <div class="pipeline__desc">Speech-to-text, image-to-text</div>
+      </div>
+      <div class="pipeline__arrow">&rarr;</div>
+      <div class="pipeline__stage">
+        <div class="pipeline__label">Normalise</div>
+        <div class="pipeline__title">One Format</div>
+        <div class="pipeline__desc">Every concern = one record</div>
+      </div>
+      <div class="pipeline__arrow">&rarr;</div>
+      <div class="pipeline__stage" style="border-color: var(--accent); border-width: 2px;">
+        <div class="pipeline__label" style="color: var(--gold);">Classify</div>
+        <div class="pipeline__title">AI Agent</div>
+        <div class="pipeline__desc">Sentiment, theme, urgency</div>
+      </div>
+      <div class="pipeline__arrow">&rarr;</div>
+      <div class="pipeline__stage">
+        <div class="pipeline__label">Store</div>
+        <div class="pipeline__title">Master Data</div>
+        <div class="pipeline__desc">Single source of truth</div>
+      </div>
+      <div class="pipeline__arrow">&rarr;</div>
+      <div class="pipeline__stage" style="border-color: var(--gold); border-width: 2px;">
+        <div class="pipeline__label" style="color: var(--gold);">Surface</div>
+        <div class="pipeline__title">Dashboard</div>
+        <div class="pipeline__desc">CHRO-ready view</div>
+      </div>
+    </div>
+    <div class="cards-3">
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">Sentiment</div>
+        <div style="font-family: var(--font-display); font-size: 20px; margin-bottom: 6px;">Positive &middot; Neutral &middot; Negative</div>
+        <div style="font-size: 14px; color: var(--text-muted);">AI detects tone, sarcasm, and mixed feelings</div>
+      </div>
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">Theme</div>
+        <div style="font-family: var(--font-display); font-size: 20px; margin-bottom: 6px;">8 categories</div>
+        <div style="font-size: 14px; color: var(--text-muted);">Compensation, Working Hours, Medical, Career Growth, Policy, and more</div>
+      </div>
+      <div class="card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 14px; font-weight: 700; color: var(--red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">Urgency</div>
+        <div style="font-family: var(--font-display); font-size: 20px; margin-bottom: 6px;">Low &middot; Medium &middot; High</div>
+        <div style="font-size: 14px; color: var(--text-muted);">High = CHRO attention needed. Safety, legal, mass impact.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 5: WHAT THE CHRO SEES — DASHBOARD + THEMES ====== -->
+<div class="slide has-scroll">
+  <div class="slide__inner">
+    <div class="eyebrow">The CHRO view</div>
+    <div class="heading-md" style="margin-bottom: 12px;">From <span class="accent-text">scattered notes</span> to a <span class="accent-text">single screen</span></div>
+    <div class="text-md" style="margin-bottom: 20px; max-width: 860px;">A live dashboard showing sentiment across offices, top themes rising, and high-urgency concerns &mdash; refreshed automatically.</div>
+    <div class="screenshot-grid" style="margin-bottom: 16px;">
+      <div>
+        <div class="screenshot-label">Sentiment Overview</div>
+        <img src="Images/Dashboard.jpg" alt="Dashboard" class="screenshot">
+        <div class="screenshot-caption">KPI cards &middot; Sentiment donut &middot; Top themes by volume &middot; Office & source filters</div>
+      </div>
+      <div>
+        <div class="screenshot-label">Theme Deep-Dive</div>
+        <img src="Images/Themes.jpg" alt="Themes" class="screenshot">
+        <div class="screenshot-caption">Theme cards with sentiment split &middot; Example concerns &middot; Click to drill into detail</div>
+      </div>
+    </div>
+    <div class="screenshot-grid">
+      <div>
+        <div class="screenshot-label">Recent Concerns Feed</div>
+        <img src="Images/Recent-Concerns-Screen.jpg" alt="Recent Concerns" class="screenshot">
+        <div class="screenshot-caption">Every concern listed &middot; Sentiment pills &middot; Source, office, confidence &middot; Full-text search</div>
+      </div>
+      <div>
+        <div class="screenshot-label">Personalised "For You" View</div>
+        <img src="Images/For-You-ViewScreen.jpg" alt="For You View" class="screenshot">
+        <div class="screenshot-caption">Scoped to your role &middot; Your offices, your themes, your urgency queue</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 6: MORE SCREENS — ACTION QUEUE + AUTOMATION ====== -->
+<div class="slide has-scroll">
+  <div class="slide__inner">
+    <div class="eyebrow">Beyond insights &mdash; action & automation</div>
+    <div class="heading-md" style="margin-bottom: 20px;">Not just hearing the voice. <span class="accent-text">Acting on it.</span></div>
+    <div class="screenshot-grid" style="margin-bottom: 16px;">
+      <div>
+        <div class="screenshot-label">Action Queue & Tracking</div>
+        <img src="Images/Action-Queue.jpg" alt="Action Queue" class="screenshot">
+        <div class="screenshot-caption">High-urgency concerns assigned to HR owners &middot; Status tracking (Open &rarr; In Progress &rarr; Resolved) &middot; CHRO progress reporting</div>
+      </div>
+      <div>
+        <div class="screenshot-label">Manual Concern Entry</div>
+        <img src="Images/Add Concern.jpg" alt="Add Concern" class="screenshot">
+        <div class="screenshot-caption">Quick-add for ad hoc concerns &middot; Office, source, theme, sentiment &middot; In production, captured automatically</div>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <div class="screenshot-label">AI Automation Pipeline</div>
+        <img src="Images/n8n-Automation.jpg" alt="n8n Automation" class="screenshot" style="width: 100%;">
+        <div class="screenshot-caption">Automated ingestion &rarr; transcription &rarr; classification &rarr; dashboard refresh. No manual steps.</div>
+      </div>
+      <div>
+        <div class="screenshot-label">Real Input — Whiteboard from Town Hall</div>
+        <img src="Images/whiteboard_shj_01.jpg" alt="Whiteboard" class="screenshot" style="width: 100%;">
+        <div class="screenshot-caption">AI Vision reads handwritten notes &middot; Extracts each concern &middot; Classifies sentiment and theme automatically</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 7: OPTIONS ====== -->
+<div class="slide">
+  <div class="slide__inner">
+    <div class="eyebrow">Your options</div>
+    <div class="heading-md" style="margin-bottom: 28px;">Three scopes. <span class="accent-text">You choose the depth.</span></div>
+    <div class="cards-3" style="gap: 20px;">
+      <div class="card" style="border-top: 3px solid var(--text-muted); padding: 32px 24px;">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Option A</div>
+        <div class="card__title" style="font-size: 24px;">Excel-to-Dashboard</div>
+        <div class="card__desc" style="margin-bottom: 16px;">Start with the data you already have. Import People Forum + Town Hall Q&A from spreadsheets. AI classifies. Dashboard surfaces insights.</div>
+        <div style="padding: 12px 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
+          <strong style="color: var(--text-primary);">Best for:</strong> Quick proof of value from existing data.<br>
+          <strong style="color: var(--text-primary);">Inputs:</strong> Typed text (Forum + Q&A submissions)
+        </div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--accent); padding: 32px 24px; box-shadow: 0 4px 20px rgba(31,78,121,0.1);">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;">Option B &mdash; Recommended</div>
+        <div class="card__title" style="font-size: 24px; color: var(--accent);">Full Voice Capture</div>
+        <div class="card__desc" style="margin-bottom: 16px;">Everything in Option A, plus AI transcription from live session audio and vision reading from whiteboard photos. No concern left behind.</div>
+        <div style="padding: 12px 16px; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
+          <strong style="color: var(--accent);">Best for:</strong> Capturing the full picture &mdash; especially the live, unfiltered voice that gets lost today.<br>
+          <strong style="color: var(--accent);">Inputs:</strong> Text + session audio + whiteboard images
+        </div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--gold); padding: 32px 24px;">
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px;">Option C</div>
+        <div class="card__title" style="font-size: 24px;">Full Voice + Action Tracking</div>
+        <div class="card__desc" style="margin-bottom: 16px;">Everything in Option B, plus an action queue where high-urgency concerns get assigned to HR owners, tracked to resolution, and reported to the CHRO.</div>
+        <div style="padding: 12px 16px; background: var(--gold-light); border-radius: 8px; font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
+          <strong style="color: var(--gold);">Best for:</strong> Closing the loop &mdash; not just hearing the voice, but proving action was taken.<br>
+          <strong style="color: var(--gold);">Inputs:</strong> Text + audio + images + action workflows
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SLIDE 8: WHAT ELSE IS POSSIBLE ====== -->
+<div class="slide">
+  <div class="slide__inner">
+    <div class="eyebrow">Where this goes</div>
+    <div class="heading-md" style="margin-bottom: 28px;">The dashboard is the <span class="accent-text">starting point</span>. Here's what's ahead.</div>
+    <div class="cards-3">
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <div style="font-size: 28px; margin-bottom: 12px;">&#128276;</div>
+        <div class="card__title">Smart Alerts</div>
+        <div class="card__desc">Automatic notifications when a theme spikes, sentiment drops, or a high-urgency concern is raised. Email, Teams, or SMS.</div>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--gold);">
+        <div style="font-size: 28px; margin-bottom: 12px;">&#128200;</div>
+        <div class="card__title">Trend Analysis</div>
+        <div class="card__desc">Track how sentiment evolves quarter over quarter. Spot issues before they become crises. Prove that actions taken are moving the needle.</div>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--green);">
+        <div style="font-size: 28px; margin-bottom: 12px;">&#127760;</div>
+        <div class="card__title">Arabic & Multi-Language</div>
+        <div class="card__desc">English and Arabic. The AI classifies by meaning, not language. Concerns in Arabic get the same tagging as English.</div>
+      </div>
+    </div>
+    <div style="margin-top: 20px;">
+      <div class="cards-3">
+        <div class="card" style="border-left: 3px solid var(--red);">
+          <div style="font-size: 28px; margin-bottom: 12px;">&#9889;</div>
+          <div class="card__title">Real-Time Processing</div>
+          <div class="card__desc">Phase 2 vision: concerns classified as they're spoken in live sessions. The dashboard updates during the event, not days after.</div>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--accent);">
+          <div style="font-size: 28px; margin-bottom: 12px;">&#128202;</div>
+          <div class="card__title">Executive Reports</div>
+          <div class="card__desc">Auto-generated CHRO briefs after each People Forum cycle. Key themes, sentiment shift, actions taken, and what's still open.</div>
+        </div>
+        <div class="card" style="border-left: 3px solid var(--gold);">
+          <div style="font-size: 28px; margin-bottom: 12px;">&#128101;</div>
+          <div class="card__title">Cross-Office Benchmarking</div>
+          <div class="card__desc">Compare sentiment and themes across Dubai, Abu Dhabi, Sharjah, Cairo, Riyadh. See which offices need attention and which are thriving.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+const total = slides.length;
+let cur = 0;
+
+function updateUI() {
+  document.getElementById('prog').style.width = ((cur + 1) / total * 100) + '%';
+  const ctr = document.getElementById('ctr');
+  ctr.textContent = (cur + 1) + ' / ' + total;
+  ctr.className = cur > 0 ? 'slide-counter visible' : 'slide-counter';
+}
+
+function goTo(n) {
+  if (n < 0 || n >= total) return;
+  slides[cur].classList.remove('active');
+  cur = n;
+  slides[cur].classList.add('active');
+  const s = slides[cur];
+  if (s.classList.contains('has-scroll')) s.scrollTop = 0;
+  updateUI();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(cur + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(cur - 1); }
+  else if (e.key === 'Home') goTo(0);
+  else if (e.key === 'End') goTo(total - 1);
+});
+
+document.getElementById('czp').addEventListener('click', () => goTo(cur - 1));
+document.getElementById('czn').addEventListener('click', () => goTo(cur + 1));
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].clientX; if (Math.abs(d) > 50) { d > 0 ? goTo(cur + 1) : goTo(cur - 1); } });
+
+updateUI();
+</script>
+</body>
+</html>
